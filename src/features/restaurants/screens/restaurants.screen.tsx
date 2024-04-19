@@ -2,15 +2,10 @@ import React from 'react';
 import styled, { DefaultTheme } from 'styled-components/native';
 import { View, FlatList } from 'react-native';
 import { Searchbar } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import RestaurantInfoCard from '../components/restaurant-info-card.component';
-
+import { SafeArea } from '../../../components/utility/safe-area.component';
 // ----------------------------------------------------------------------------
-
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-`;
 
 const SearchContainer = styled(View)`
   padding: ${(props: { theme: DefaultTheme }) => props.theme.space[3]};
