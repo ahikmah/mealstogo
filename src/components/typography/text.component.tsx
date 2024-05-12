@@ -22,9 +22,6 @@ const body = (theme: { fontSizes: { body: any } }) => `
     font-size: ${theme.fontSizes.body};
 `;
 
-const hint = (theme: { fontSizes: { body: any } }) => `
-    font-size: ${theme.fontSizes.body};
-`;
 
 const error = (theme: { colors: { text: { error: any } } }) => `
     color: ${theme.colors.text.error};
@@ -50,7 +47,6 @@ const variants = {
   label,
   caption,
   error,
-  hint,
 };
 
 type VariantType = keyof typeof variants;

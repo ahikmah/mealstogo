@@ -1,42 +1,55 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled, { DefaultTheme } from 'styled-components/native';
-import { View, FlatList } from 'react-native';
-import { Searchbar } from 'react-native-paper';
+import { FlatList } from 'react-native';
+import { Searchbar, ActivityIndicator, MD2Colors } from 'react-native-paper';
 
 import RestaurantInfoCard from '../components/restaurant-info-card.component';
 import { SafeArea } from '../../../components/utility/safe-area.component';
+
+import { RestaurantsContext } from '../../../services/restaurants/restaurant.context';
 // ----------------------------------------------------------------------------
 
-const SearchContainer = styled(View)`
+const SearchContainer = styled.View`
   padding: ${(props: { theme: DefaultTheme }) => props.theme.space[3]};
+`;
+
+const Loading = styled(ActivityIndicator)`
+  margin-left: -25px;
+  margin-top: -25px;
+`;
+
+const LoadingContainer = styled.View`
+  position: absolute;
+  top: 50%;
+  left: 50%;
 `;
 
 // ----------------------------------------------------------------------------
 
 export default function RestaurantsScreen() {
+  const { restaurants, isLoading } = useContext(RestaurantsContext);
   return (
     <SafeArea>
       <SearchContainer>
         <Searchbar placeholder="Search" value="" />
       </SearchContainer>
 
-      <FlatList
-        data={[
-          { name: 1 },
-          { name: 2 },
-          { name: 3 },
-          { name: 4 },
-          { name: 5 },
-          { name: 6 },
-          { name: 7 },
-          { name: 8 },
-          { name: 9 },
-          { name: 10 },
-        ]}
-        renderItem={() => <RestaurantInfoCard />}
-        keyExtractor={(item: { name: any }) => item.name}
-        contentContainerStyle={{ padding: 16 }}
-      />
+      {isLoading ? (
+        <LoadingContainer>
+          <Loading
+            size={50}
+            animating
+            color={MD2Colors.red800}
+            style={{ marginLeft: -25, marginTop: -25 }}
+          />
+        </LoadingContainer>
+      ) : (
+        <FlatList
+          data={restaurants}
+          renderItem={({ item }) => <RestaurantInfoCard restaurant={item} />}
+          keyExtractor={(item: any) => item.name}
+        />
+      )}
     </SafeArea>
   );
 }

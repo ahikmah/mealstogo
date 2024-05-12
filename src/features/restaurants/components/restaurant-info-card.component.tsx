@@ -17,18 +17,18 @@ import open from '../../../assets/icons/open';
 
 // -----------------------------------------------------------------------
 
-function RestaurantInfoCard({ restaurant }: Props): React.JSX.Element {
+function RestaurantInfoCard({ restaurant }: Readonly<Props>): React.JSX.Element {
   return (
     <RestaurantCard>
       <Card.Cover
-        key={restaurant.name}
-        source={{ uri: restaurant.photos[0] }}
+        key={restaurant?.name}
+        source={{ uri: restaurant?.photos[0] }}
       />
       <Info>
-        <Text variant="title">{restaurant.name}</Text>
+        <Text variant="title">{restaurant?.name}</Text>
         <Row>
           <Rating>
-            {Array.from(new Array(Math.floor(restaurant.rating))).map(
+            {Array.from(new Array(Math.floor(restaurant?.rating || 0))).map(
               (_, index) => (
                 <SvgXml
                   key={`star-${index.toString()}`}
@@ -41,17 +41,21 @@ function RestaurantInfoCard({ restaurant }: Props): React.JSX.Element {
           </Rating>
 
           <RightSection>
-            {restaurant.isClosedTemporarily && (
+            {restaurant?.isClosedTemporarily && (
               <Text variant="error">CLOSED TEMPORARILY</Text>
             )}
-            {restaurant.isOpenNow && (
+            {restaurant?.isOpenNow && (
               <SvgXml xml={open} width={30} height={30} />
             )}
 
-            <Icon source={{ uri: restaurant.icon }} />
+            <Icon
+              source={{
+                uri: restaurant?.icon,
+              }}
+            />
           </RightSection>
         </Row>
-        <Text variant="caption">{restaurant.address}</Text>
+        <Text variant="caption">{restaurant?.address}</Text>
       </Info>
     </RestaurantCard>
   );
@@ -69,18 +73,4 @@ type Props = {
   };
 };
 
-// default value
-RestaurantInfoCard.defaultProps = {
-  restaurant: {
-    name: 'Honu Coffee',
-    icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png',
-    photos: [
-      'https://www.foodiesfeed.com/wp-content/uploads/2023/06/pouring-honey-on-pancakes.jpg',
-    ],
-    address: '100 Some Random Street',
-    isOpenNow: true,
-    rating: 5,
-    isClosedTemporarily: true,
-  },
-};
 export default RestaurantInfoCard;
